@@ -1,5 +1,5 @@
 // using hashing and prefix sum
-// work for -ve number as well
+// Optimal for -ve number as well
 func longestSubstring(inputArr []int, requiredSum int){
 	hashMap := make(map[int]int)
 	var maxSlice []int
@@ -35,4 +35,39 @@ func findMax(inputSlice []int)int{
 		}
 	}
 	return max
+}
+
+
+
+// using 2 pointer approach, sliding window
+// optimal for postive and 0
+func longestSubstring(inputArray []int, k int){
+	var right, left, sum int
+	var count []int
+	sum = inputArray[0]
+
+	for right < len(inputArray){
+
+		// if sum > k, reduce the subarray from left
+		// until sum becomes less or equal to k:
+		for left <= right && sum > k {
+			sum -= inputArray[left]
+			left++
+		}
+		// if sum = k, update the maxLen i.e. answer:
+		if sum == k{
+			count = append(count, (right-left)+1)
+		}
+
+		// Move forward thw right pointer:
+		right++
+		if right < len(inputArray) {
+			sum += inputArray[right]
+		}
+
+	}
+
+	
+	fmt.Print(findMax(count))
+
 }
