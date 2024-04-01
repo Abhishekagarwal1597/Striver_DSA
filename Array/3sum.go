@@ -31,3 +31,38 @@ func threeSum(nums []int) [][]int {
     }
     return ans
 }
+
+# using 2 pointer approach
+func threeSum(nums []int) [][]int {
+    sort.Ints(nums)
+    newMap := make([][]int, 0)
+    for i:=0;i<len(nums);i++{
+        if i!=0 && nums[i] == nums[i-1] {
+            continue
+        }
+        right := len(nums) - 1
+        left := i+1
+        for right > left {
+            sum := nums[i] + nums[left] + nums[right]
+            if sum == 0 {
+                newMap = append(newMap, []int{nums[i], nums[left], nums[right]})
+                left++
+                right--
+                
+                //skip the duplicates
+                for left < right && nums[left] == nums[left - 1]{
+                    left++
+                }
+                for left < right && nums[right] == nums[right+ 1] {
+                    right--
+                }
+                
+            } else if sum < 0 {
+                left++
+            } else {
+                right--
+            }
+        }
+    }
+    return newMap
+}
